@@ -24,14 +24,14 @@
 	\begin{itemize}
 		\item wstępne przetworzenie/transformacja danych,
 		\item statystyczny opis danych,
-		\item wybór parametrów algoytmów klasyfikacji wymagających strojenia,
+		\item wybór parametrów algorytmów klasyfikacji wymagających strojenia,
 		\item ocena jakości modeli,
 		\item opis wyników i przedstawienie wniosków.
 	\end{itemize}
  	Celem analizy jest zbudowanie modeli określających typ lasu na postawie pozycji na mapie, nachylenia terenu, typu gleby, odległości od zbiorników wodnych czy dróg.
 
 	\section{Opis danych}
-	Dane do projektu pochodzą ze strony UCI Machine Learning Repository \linebreak\mbox{\url{https://archive.ics.uci.edu/ml/machine-learning-databases/covtype}}.\linebreak Mają one charakte surowych (nieskalowanych) danych geograficznych i geologicznych opisujących działki o powierzchni \mbox{$30 m \times 30 m$} znajdujących się w \mbox{Roosevelt} National Forest na Północy stanu Kolorado, USA. Każdy z przykładów opisany jest za pomocą 12 atrybutów - z których 10 to atybuty numeryczne, a 2 binarne - zawartych w sumie w 54 kolumnach. 4 z kolumn opisują obszar, na którym znajduje się dany parcel, a 40 rodzaj występującej tam gleby. Pozostałe atrybuty numeryczne chaakteyzują takie dane geograficzne jak wysokość nad poziomem morza, nachylenie terenu, odległości od dróg i zbiorników wodnych oraz inne.
+	Dane do projektu pochodzą ze strony UCI Machine Learning Repository \linebreak\mbox{\url{https://archive.ics.uci.edu/ml/machine-learning-databases/covtype}}.\linebreak Mają one charakter surowych (nieskalowanych) danych geograficznych i geologicznych opisujących działki o powierzchni \mbox{$30 m \times 30 m$} znajdujących się w \mbox{Roosevelt} National Forest na Północy stanu Kolorado, USA. Każdy z przykładów opisany jest za pomocą 12 atrybutów - z których 10 to atrybuty numeryczne, a 2 binarne - zawartych w sumie w 54 kolumnach. 4 z kolumn opisują obszar, na którym znajduje się dany parcel, a 40 rodzaj występującej tam gleby. Pozostałe atrybuty numeryczne charakteryzują takie dane geograficzne jak wysokość nad poziomem morza, nachylenie terenu, odległości od dróg i zbiorników wodnych oraz inne.
 
 	Atrybut, pełniący rolę pojęcia domyślnego, tj. klasy do której przykłady będą przypisywane, to rodzaj lasu, składający się z kategorii przedstawionych w tablicy poniżej.
 	\begin{center}
@@ -49,9 +49,9 @@
 	\end{center}
 	Pełen zbiór zawiera 581,012 przykładów.				
 	\section{Wstępne przygotowanie danych}
-		Wszystkie dane, kategoryczne (binarne) oraz nominalne, przedstawione są w postaci liczbowej. W zbiorze nie występują niepełne obsewacje.
+		Wszystkie dane, kategoryczne (binarne) oraz nominalne, przedstawione są w postaci liczbowej. W zbiorze nie występują niepełne obserwacje.
 		
-		Dodane zostaną dwa nowe atrybuty, powstałe poprzez scalenie podobnych istniejących atybutów. Rodzaje gleby, które są reprezentowane przez wiele atrybutów zostaną zastąpione pojedyńczym atrybutem opisującym kategorię gleby. Również atrybuty Wilderness\_Area,zostaną zamienione na jeden atrybut kategoryczny.
+		Dodane zostaną dwa nowe atrybuty, powstałe poprzez scalenie podobnych istniejących atrybutów. Rodzaje gleby, które są reprezentowane przez wiele atrybutów zostaną zastąpione pojedynczym atrybutem opisującym kategorię gleby. Również atrybuty Wilderness\_Area, zostaną zamienione na jeden atrybut kategoryczny.
 	\section{Wybór i strojenie algorytmów}
 			Do rozwiązania zadania użyte będą algorytmy (z pakietów):
 			\begin{enumerate}
@@ -59,11 +59,11 @@
 				\item random forest (\emph{randomForest}): wymagana parametryzacja drzewa użytego w algorytmie.
 			\end{enumerate}
 			Nie wykluczamy również wykorzystania algorytmów z innych pakietów: \emph{gbm} lub/oraz \emph{extraTree}.
-		Istotnym elementem będzie strojenie wykorzystywanych algorytmów do analizowanego zbioru danych. Strojone będą tylko te parametry które w znaczący sposób wpłyną na wyniki predykcji algorytmu. W celu określania efektywności strojonego algorytmu ze zbioru danych, wykorzystamy prostą lub \emph{k}--krotną krzyżową walidację. W pierwszej metodzie wybrany zostanie niewielki podzbiór, około 10\% rekordów który będzie służył do testowania wytrenowanych modeli. Modele będą trenowane na pozostałym zbiorze 90\% rekordów. W drugiej opcji zbiór podzielimy na 10 lub 5 zestawów, z których każdy w kolejnych iteracjach będzie służył jako zbiór testowy, a pozostałe jako zbiór trenujący. Jeden ze zbiorów nie będzie wykozystywany w walidacji, lecz zostanie użyty do sprawdzenia dokładności modelu.
+		Istotnym elementem będzie strojenie wykorzystywanych algorytmów do analizowanego zbioru danych. Strojone będą tylko te parametry które w znaczący sposób wpłyną na wyniki predykcji algorytmu. W celu określania efektywności strojonego algorytmu ze zbioru danych, wykorzystamy prostą lub \emph{k}--krotną krzyżową walidację. W pierwszej metodzie wybrany zostanie niewielki podzbiór, około 10\% rekordów który będzie służył do testowania wytrenowanych modeli. Modele będą trenowane na pozostałym zbiorze 90\% rekordów. W drugiej opcji zbiór podzielimy na 10 lub 5 zestawów, z których każdy w kolejnych iteracjach będzie służył jako zbiór testowy, a pozostałe jako zbiór trenujący. Jeden ze zbiorów nie będzie wykorzystywany w walidacji, lecz zostanie użyty do sprawdzenia dokładności modelu.
 
-		Decyzję o wyborze algoytmów do analizy oraz metody strojenia, podejmiemy na etapie realizacji analizy, uzależniając ją od stopnia skomplikowania zadania projektowego.
+		Decyzję o wyborze algorytmów do analizy oraz metody strojenia, podejmiemy na etapie realizacji analizy, uzależniając ją od stopnia skomplikowania zadania projektowego.
  
  	\section{Ocena jakości modeli}
- 		Do oceny jakości oraz dokładności modeli modele zostaną przetestowane na zbiorze testowym. Otrzymane wyniki porównane z rzeczywistą kategorią pozwolą na określenie dokładności modelu. Na ich podstawie będziemy również w stanie stworzyć macierz pomyłek oraz wyznaczyć powiązane z nią współczynniki. Na ich podstawie bedziemy w stanie wykreślić krzywą ROC oraz wynaczyć AUC.
+ 		Do oceny jakości oraz dokładności modeli modele zostaną przetestowane na zbiorze testowym. Otrzymane wyniki porównane z rzeczywistą kategorią pozwolą na określenie dokładności modelu. Na ich podstawie będziemy również w stanie stworzyć macierz pomyłek oraz wyznaczyć powiązane z nią współczynniki. Na ich podstawie będziemy w stanie wykreślić krzywą ROC oraz wyznaczyć AUC.
 \end{document}
 
