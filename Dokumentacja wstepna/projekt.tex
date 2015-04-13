@@ -1,0 +1,69 @@
+% Preambuła
+\documentclass[a4paper,10pt]{article}
+\usepackage[polish]{babel}
+\usepackage[OT4]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{array}
+\usepackage[T1]{fontenc}
+\usepackage{hyperref}
+
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}} 
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+% Część główna
+
+\title{Metody Odkrywania Wiedzy (MOW)\\Projekt analityczny klasyfikacja\\Założenia wstępne}
+\author{Andrzej Smyk\\Błażej Szum}
+\date{13 kwietnia 2015}
+\begin{document}
+	\maketitle
+	
+	\section{Cel projektu}
+	Celem projektu jest wnikliwa i szeroko zakrojona analiza danych z wykorzystaniem dostępnych pakietów i algorytmów zaimplementowanych w środowisku R. Za pomocą dostępnych w R narzędzi stworzymy odpowiednie modele pozwalające na przydzielenie obserwacji do jednej z kategorii na podstawie wartości jej atrybutów. Działania jakie zostaną podjęte przy realizacji zadania projektowego to:
+	\begin{itemize}
+		\item wstępne przetworzenie/transformacja danych,
+		\item statystyczny opis danych,
+		\item wybór parametrów algorytmów klasyfikacji wymagających strojenia,
+		\item ocena jakości modeli,
+		\item opis wyników i przedstawienie wniosków.
+	\end{itemize}
+ 	Celem analizy jest zbudowanie modeli określających typ lasu na postawie pozycji na mapie, nachylenia terenu, typu gleby, odległości od zbiorników wodnych czy dróg.
+
+	\section{Opis danych}
+	Dane do projektu pochodzą ze strony UCI Machine Learning Repository \linebreak\mbox{\url{https://archive.ics.uci.edu/ml/machine-learning-databases/covtype}}.\linebreak Mają one charakter surowych (nieskalowanych) danych geograficznych i geologicznych opisujących działki o powierzchni \mbox{$30 m \times 30 m$} znajdujących się w \mbox{Roosevelt} National Forest na Północy stanu Kolorado, USA. Każdy z przykładów opisany jest za pomocą 12 atrybutów - z których 10 to atrybuty numeryczne, a 2 binarne - zawartych w sumie w 54 kolumnach. 4 z kolumn opisują obszar, na którym znajduje się dany parcel, a 40 rodzaj występującej tam gleby. Pozostałe atrybuty numeryczne charakteryzują takie dane geograficzne jak wysokość nad poziomem morza, nachylenie terenu, odległości od dróg i zbiorników wodnych oraz inne.
+
+	Atrybut, pełniący rolę pojęcia domyślnego, tj. klasy do której przykłady będą przypisywane, to rodzaj lasu, składający się z kategorii przedstawionych w tablicy poniżej.
+	\begin{center}
+		\begin{tabular}{c | L{4.5cm}} 
+			Klasa & Nazwa \\\hline
+			1 & Spruce/Fir \\
+	        2 & Lodgepole Pine \\
+	        3 & Ponderosa Pine \\
+	        4 & Cottonwood/Willow \\
+	        5 & Aspen \\
+	        6 & Douglas-fir \\
+	        7 & Krummholz \\
+			\hline
+		\end{tabular}
+	\end{center}
+	Pełen zbiór zawiera 581,012 przykładów.				
+	\section{Wstępne przygotowanie danych}
+		Wszystkie dane, kategoryczne (binarne) oraz nominalne, przedstawione są w postaci liczbowej. W zbiorze nie występują niepełne obserwacje.
+		
+		Dodane zostaną dwa nowe atrybuty, powstałe poprzez scalenie podobnych istniejących atrybutów. Rodzaje gleby, które są reprezentowane przez wiele atrybutów zostaną zastąpione pojedynczym atrybutem opisującym kategorię gleby. Również atrybuty Wilderness\_Area, zostaną zamienione na jeden atrybut kategoryczny.
+	\section{Wybór i strojenie algorytmów}
+			Do rozwiązania zadania użyte będą algorytmy (z pakietów):
+			\begin{enumerate}
+				\item Support Vector Machines (\emph{e1071} oraz \emph{kernlab}): strojenie poprzez dobranie odpowiedniego parametru sigma podczas tworzenia radial basis function (RBF);
+				\item random forest (\emph{randomForest}): wymagana parametryzacja drzewa użytego w algorytmie.
+			\end{enumerate}
+			Nie wykluczamy również wykorzystania algorytmów z innych pakietów: \emph{gbm} lub/oraz \emph{extraTree}.
+		Istotnym elementem będzie strojenie wykorzystywanych algorytmów do analizowanego zbioru danych. Strojone będą tylko te parametry które w znaczący sposób wpłyną na wyniki predykcji algorytmu. W celu określania efektywności strojonego algorytmu ze zbioru danych, wykorzystamy prostą lub \emph{k}--krotną krzyżową walidację. W pierwszej metodzie wybrany zostanie niewielki podzbiór, około 10\% rekordów który będzie służył do testowania wytrenowanych modeli. Modele będą trenowane na pozostałym zbiorze 90\% rekordów. W drugiej opcji zbiór podzielimy na 10 lub 5 zestawów, z których każdy w kolejnych iteracjach będzie służył jako zbiór testowy, a pozostałe jako zbiór trenujący. Jeden ze zbiorów nie będzie wykorzystywany w walidacji, lecz zostanie użyty do sprawdzenia dokładności modelu.
+
+		Decyzję o wyborze algorytmów do analizy oraz metody strojenia, podejmiemy na etapie realizacji analizy, uzależniając ją od stopnia skomplikowania zadania projektowego.
+ 
+ 	\section{Ocena jakości modeli}
+ 		Do oceny jakości oraz dokładności modeli modele zostaną przetestowane na zbiorze testowym. Otrzymane wyniki porównane z rzeczywistą kategorią pozwolą na określenie dokładności modelu. Na ich podstawie będziemy również w stanie stworzyć macierz pomyłek oraz wyznaczyć powiązane z nią współczynniki. Na ich podstawie będziemy w stanie wykreślić krzywą ROC oraz wyznaczyć AUC.
+\end{document}
+
